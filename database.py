@@ -1,5 +1,5 @@
 import sqlite3
-from utils import is_valid_ipv4, is_valid_ipv6
+from utils.utils import is_valid_ipv4, is_valid_ipv6
 
 def insert_malicious_ip(connection, cursor, ipv4, ipv6):
     if not is_valid_ipv4(ipv4):

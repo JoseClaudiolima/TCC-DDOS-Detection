@@ -1,11 +1,9 @@
 import sys
 from database import setup_database, insert_malicious_ip, select_all_malicious_ips, delete_all_ip
-from view.autentification import authenticate_user 
+from view.interface import authentification_interface
 
 if __name__ == "__main__":
-    authentication = authenticate_user()
-    if not authentication:
-        sys.exit() # Finalize the process
+    authentification_interface()
 
     connection, cursor = setup_database()
     try:
@@ -15,8 +13,6 @@ if __name__ == "__main__":
         # delete_all_ip(connection, cursor)
 
         print()
-
-        
 
     finally:
         connection.close()
