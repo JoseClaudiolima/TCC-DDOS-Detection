@@ -169,3 +169,12 @@ poetry.toml
 
 # LSP config files
 pyrightconfig.json
+
+# Comments
+inner/
+
+# Dataset
+dataset/
+
+# Initial database
+ddos_detection.db
