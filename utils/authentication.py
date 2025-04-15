@@ -23,7 +23,6 @@ def authenticate_user(user_name, password, domain="."):
             ctypes.windll.kernel32.CloseHandle(handle)
             return True
         else:
-            print("❌ Authentication failed.")
             return False
     finally:
         # Overwrite password to remove traces from memory

@@ -1,10 +1,10 @@
 import sys
 from database import setup_database, insert_malicious_ip, select_all_malicious_ips, delete_all_ip
-from view.interface import authentification_interface
+from view.interface import create_an_authentification_interface
 
 if __name__ == "__main__":
-    authentification_interface()
-
+    create_an_authentification_interface()
+        
     connection, cursor = setup_database()
     try:
         # Exemplos dos comandos no banco de dados:
