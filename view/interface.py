@@ -1,14 +1,16 @@
-import sys
 import tkinter
 import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 from utils.authentication import authenticate_user
 
-def network_manager_interface(window):
-    window = manage_size_and_centralization_interface_window(window, 1000,500, True)
-    window.title("Network Manager")
+def initialize_the_network_manager_interface():
+    network_window = ttk.Window(themename="flatly")
+    network_window = manage_size_centralization_and_icon_interface_window(network_window, 1000,500, True)
+    network_window.title("Network Manager")
 
     # Show the network environment...
+    
+    network_window.mainloop() # This looping keeps showing a weird alert
 
 def authenticate(user_name, password, window):
     authentication = authenticate_user(user_name, password)
@@ -16,8 +18,9 @@ def authenticate(user_name, password, window):
         destroy_widgets_in_interface(window)
         create_an_error_authentication_interface(window)
     else:
-        destroy_widgets_in_interface(window)
-        network_manager_interface(window)
+        window.quit()
+        window.destroy() # Destroy the authentication interface
+        window = None
 
 def create_an_error_authentication_interface(window):
     def countdown (countdown_label, time_left):
@@ -43,7 +46,7 @@ def destroy_widgets_in_interface(window):
         widget.destroy()
     return
 
-def manage_size_and_centralization_interface_window(window, width, height, centralized=True):
+def manage_size_centralization_and_icon_interface_window(window, width, height, centralized=True):
     # Code below is for centralize the window on screen
     x,y = 0,0
     if centralized:
@@ -53,18 +56,18 @@ def manage_size_and_centralization_interface_window(window, width, height, centr
         x = (screen_width - width) // 2
         y = (screen_height - height) // 2
 
-
     window.geometry(f"{width}x{height}+{x}+{y}")
+
+    window.resizable(False, False) # It's not possible to resize the window
+    window.iconbitmap("view/transparent-pixel.ico") # Replace the default icon, by a transparent 1x1 pixel
+
     return window
 
 def create_an_authentication_interface(window=False):
     if not window: # If there is not a old window (if its the first time running this code)
         # Create the main window for the first time
         window = ttk.Window(themename="flatly") # Other options: superhero #solar #darkly #simplex #journal #flatly
-        window = manage_size_and_centralization_interface_window(window, 350, 200,True)
-        window.resizable(False, False) # It's not possible to resize the window
-
-        window.iconbitmap("transparent-pixel.ico") # Replace the default icon, by a transparent 1x1 pixel
+        window = manage_size_centralization_and_icon_interface_window(window, 350, 200,True)
 
         # Configure column weights
         window.grid_columnconfigure(0, weight=1)
@@ -83,9 +86,6 @@ def create_an_authentication_interface(window=False):
     password_entry = ttk.Entry(window, show="*", font=("Arial", 11))
     password_entry.grid(row=1, column=1, padx=0, pady=10)
 
-    # Bind the Enter key to trigger the authentication function
-    window.bind("<Return>", lambda event: authenticate(username_entry.get(), password_entry.get(), window))
-
     # Larger button (rectangular)
     login_button = tkinter.Button(
         window, text="LOGIN", font=("Arial", 11),
@@ -94,6 +94,7 @@ def create_an_authentication_interface(window=False):
     )
     login_button.grid(row=2, column=0, columnspan=2, pady=20)  # Increased padding for spacing
 
+    # Bind the Enter key to trigger the authentication function
+    window.bind("<Return>", lambda event: authenticate(username_entry.get(), password_entry.get(), window))
 
     window.mainloop()
-
