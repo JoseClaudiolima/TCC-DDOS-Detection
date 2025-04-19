@@ -4,7 +4,7 @@ import time
 
 def plot_network_graph(frame_plot, data):
     total_rows = len(data)
-    steps = 500
+    steps = 200
     rows_per_step = total_rows // steps
 
     # Create Matplotlib figure and axes
@@ -16,7 +16,8 @@ def plot_network_graph(frame_plot, data):
     # Lists to store data for plotting
     time_axis = []
     total_per_step = []
-    drdos_per_step = []
+    netbios_ddos_per_step = []
+    syn_ddos_per_step = []
     benign_per_step = []
 
     state = {"index": 0, "start_time": time.time()}
@@ -29,24 +30,34 @@ def plot_network_graph(frame_plot, data):
         # Read a new chunk of data
         chunk = data.iloc[:i + rows_per_step]
         count_total = len(chunk)
-        count_drdos = (chunk['Label'] == 'DrDoS_NetBIOS').sum()
+
+        # Will sum all label from data read
+        count_drdos_netbios_1 = (chunk['Label'] == 'DrDoS_NetBIOS').sum()
+        count_ddos_netbios_2 = (chunk['Label'] == 'NetBIOS').sum()
+        count_netbios_ddos = count_drdos_netbios_1 + count_ddos_netbios_2
+        count_syn_ddos = (chunk['Label'] == 'Syn').sum()
         count_benign = (chunk['Label'] == 'BENIGN').sum()
 
         elapsed_time = time.time() - state["start_time"]
         time_axis.append(round(elapsed_time, 2))
         total_per_step.append(count_total)
-        drdos_per_step.append(count_drdos)
+        
+        netbios_ddos_per_step.append(count_netbios_ddos)
+        syn_ddos_per_step.append(count_syn_ddos)
         benign_per_step.append(count_benign)
 
         # Clear and redraw plot
         ax.clear()
         ax.plot(time_axis, total_per_step, label='Total', color='black')
-        ax.plot(time_axis, drdos_per_step, label='DDoS_NetBIOS', color='red')
+        ax.plot(time_axis, netbios_ddos_per_step, label='DDoS_NETBIOS', color='red')
+        ax.plot(time_axis, syn_ddos_per_step, label='DDoS_SYN', color='orange')
+
         ax.plot(time_axis, benign_per_step, label='BENIGN', color='green')
 
         info_text = (
             f"Total: {count_total:,}\n"
-            f"DDoS_NetBIOS: {count_drdos:,}\n"
+            f"DDoS_NetBIOS: {count_netbios_ddos:,}\n"
+            f"DDoS_SYN: {count_syn_ddos:,}\n"
             f"BENIGN: {count_benign:,}"
         )
         ax.text(0.02, 0.95, info_text, transform=ax.transAxes, fontsize=12,

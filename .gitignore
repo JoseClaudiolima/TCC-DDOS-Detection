@@ -175,3 +175,6 @@ inner/
 
 # Initial database
 ddos_detection.db
+
+# Backup
+backup/

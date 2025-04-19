@@ -6,7 +6,7 @@ from view.network_graph import plot_network_graph
 
 def initialize_the_network_manager_interface(data):    
     network_window = ttk.Window(themename="flatly")
-    network_window = manage_size_centralization_and_icon_interface_window(network_window, 1000,500, True)
+    network_window = manage_size_centralization_and_icon_interface_window(network_window, 1400,700, True)
     network_window.title("Network Manager")
 
     frame_plot = ttk.Frame(network_window)

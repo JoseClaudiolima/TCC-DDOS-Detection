@@ -3,7 +3,7 @@
 import pandas as pd
 
 def read_data_with_sample_of_conections():
-    # Carregar o parquet
-    df = pd.read_parquet("dataset/data_with_500k_samples.parquet") # There are 3 samples in /dataset
+    # Load the data
+    df = pd.read_parquet("dataset/all_data_with_15_features_and_label.parquet")
 
     return df

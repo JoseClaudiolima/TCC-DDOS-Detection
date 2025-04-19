@@ -1,3 +1,4 @@
 pandas
 pyarrow
 ttkbootstrap
+scikit-learn
