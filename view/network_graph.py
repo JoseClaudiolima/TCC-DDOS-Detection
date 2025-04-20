@@ -32,9 +32,7 @@ def plot_network_graph(frame_plot, data):
         count_total = len(chunk)
 
         # Will sum all label from data read
-        count_drdos_netbios_1 = (chunk['Label'] == 'DrDoS_NetBIOS').sum()
-        count_ddos_netbios_2 = (chunk['Label'] == 'NetBIOS').sum()
-        count_netbios_ddos = count_drdos_netbios_1 + count_ddos_netbios_2
+        count_netbios_ddos = (chunk['Label'] == 'NetBIOS').sum()
         count_syn_ddos = (chunk['Label'] == 'Syn').sum()
         count_benign = (chunk['Label'] == 'BENIGN').sum()
 
