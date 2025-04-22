@@ -178,3 +178,7 @@ ddos_detection.db
 
 # Backup
 backup/
+
+laboratory/
+
+dataset/secret/
